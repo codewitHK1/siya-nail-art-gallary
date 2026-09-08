@@ -16,7 +16,7 @@ export default function CustomCursor() {
 
     const move = (e) => {
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${e.clientX - 7}px, ${e.clientY - 7}px, 0)`;
+        dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
       }
     };
 
@@ -49,8 +49,8 @@ export default function CustomCursor() {
       ref={dotRef}
       className="custom-cursor"
       style={{
-        width: active ? (label ? 64 : 26) : 14,
-        height: active ? (label ? 64 : 26) : 14,
+        width: active ? (label ? 72 : 40) : 16,
+        height: active ? (label ? 72 : 40) : 16,
         transition: "width 0.25s cubic-bezier(0.22,1,0.36,1), height 0.25s cubic-bezier(0.22,1,0.36,1)",
       }}
     >

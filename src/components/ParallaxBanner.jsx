@@ -1,18 +1,36 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
 
 export default function ParallaxBanner() {
   const ref = useRef(null);
+  const reducedMotion = usePrefersReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
+  // The plate swings through level: tipped toward the viewer on the way in,
+  // away on the way out, so the banner reads as a physical panel passing by.
   const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [7, 0, -7]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.12, 1, 1.12]);
+
+  // Counter-parallax: the headline drifts against the image behind it.
+  const copyY = useTransform(scrollYProgress, [0, 1], ["40%", "-40%"]);
+  const copyRotateX = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 0, 10]);
 
   return (
     <section ref={ref} className="relative h-[70vh] overflow-hidden">
-      <motion.div style={{ y }} className="absolute inset-0 -top-[8%] -bottom-[8%]">
+      <motion.div
+        style={
+          reducedMotion
+            ? { y: 0, rotateX: 0, scale: 1 }
+            : { y, rotateX, scale, transformPerspective: 1200 }
+        }
+        className="absolute inset-0 -top-[8%] -bottom-[8%] will-change-transform"
+      >
         <img
           src="https://images.unsplash.com/photo-1607779097040-26e80aa4576b?auto=format&fit=crop&w=2400&q=90"
           alt="Close-up of hand-painted luxury nail art"
@@ -23,17 +41,25 @@ export default function ParallaxBanner() {
       <div className="absolute inset-0 bg-charcoal/40" />
 
       <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="glass-dark rounded-[32px] px-10 py-8 font-display text-4xl sm:text-5xl md:text-6xl leading-tight text-ivory"
+        <motion.div
+          style={
+            reducedMotion
+              ? { y: 0, rotateX: 0 }
+              : { y: copyY, rotateX: copyRotateX, transformPerspective: 900 }
+          }
         >
-          Small details.
-          <br />
-          <span className="italic">Big confidence.</span>
-        </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-dark rounded-[32px] px-10 py-8 font-display text-4xl sm:text-5xl md:text-6xl leading-tight text-ivory shadow-glass-dark"
+          >
+            Small details.
+            <br />
+            <span className="italic">Big confidence.</span>
+          </motion.h2>
+        </motion.div>
       </div>
     </section>
   );

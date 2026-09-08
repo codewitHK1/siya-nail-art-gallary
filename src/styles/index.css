@@ -68,13 +68,15 @@ button:focus-visible,
   position: fixed;
   top: 0;
   left: 0;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 999px;
-  background: #5e1b2e;
+  /* White + difference inverts whatever is underneath, so the dot stays
+     legible on both the ivory and the wine sections without any JS. */
+  background: #ffffff;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: normal;
+  mix-blend-mode: difference;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,12 +84,123 @@ button:focus-visible,
 
 .custom-cursor span {
   font-family: "Manrope", sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #fbf7f2;
+  letter-spacing: 0.14em;
+  /* Black knocks out to the untouched backdrop under difference blending,
+     so the label reads as the section's own colour inside the inverted dot. */
+  color: #000000;
   opacity: 0;
+  transition: opacity 0.2s ease;
   white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+   3D primitives
+   Perspective is set per-element by framer-motion (`transformPerspective`), so
+   these only carry the parts CSS has to own: keeping child planes un-flattened
+   and painting the specular glare that Tilt3D drives.
+   ------------------------------------------------------------------------ */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.flat-3d {
+  transform-style: flat;
+}
+
+/* A child plane pushed toward the viewer inside a tilting card. */
+.depth-1 {
+  transform: translateZ(28px);
+}
+
+.depth-2 {
+  transform: translateZ(52px);
+}
+
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  z-index: 3;
+}
+
+/* Scroll cue under the hero — a bead falling down a hairline track. */
+.scroll-cue {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 48px;
+  overflow: hidden;
+  background: linear-gradient(
+    to bottom,
+    rgba(244, 231, 225, 0),
+    rgba(244, 231, 225, 0.45),
+    rgba(244, 231, 225, 0)
+  );
+}
+
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  left: -1.5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #c6a374;
+  animation: scroll-cue-fall 2.4s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
+@keyframes scroll-cue-fall {
+  0% {
+    top: -6px;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    top: 48px;
+    opacity: 0;
+  }
+}
+
+/* Film grain over the whole page. Sits above content but below the cursor so
+   flat colour fields (the wine and ivory blocks) get a little tooth. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  animation: grain-shift 8s steps(6) infinite;
+}
+
+@keyframes grain-shift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-3%, 2%);
+  }
+  40% {
+    transform: translate(2%, -3%);
+  }
+  60% {
+    transform: translate(-2%, -2%);
+  }
+  80% {
+    transform: translate(3%, 1%);
+  }
 }
 
 /* Utility: elegant hairline divider */
@@ -138,5 +251,12 @@ button:focus-visible,
   }
   .marquee-track {
     animation: none !important;
+  }
+  .grain,
+  .scroll-cue::after {
+    animation: none !important;
+  }
+  .grain {
+    opacity: 0.2;
   }
 }
