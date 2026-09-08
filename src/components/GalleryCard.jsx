@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import responsiveImage from "../utils/responsiveImage";
+import localImage from "../utils/localImage";
 
 export default function GalleryCard({ item, className = "" }) {
   return (
@@ -13,8 +13,7 @@ export default function GalleryCard({ item, className = "" }) {
       data-cursor="view"
     >
       <img
-        {...responsiveImage(item.image, {
-          widths: [300, 400, 600, 800, 1100],
+        {...localImage(item.slug, {
           sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw",
         })}
         alt={`${item.title} — ${item.category} nail art`}

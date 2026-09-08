@@ -3,6 +3,7 @@ import { Instagram as InstagramIcon, Heart } from "lucide-react";
 import siteConfig from "../config/siteConfig";
 import { galleryItems } from "../data/gallery";
 import SectionHeading from "./SectionHeading";
+import localImage from "../utils/localImage";
 import CTAButton from "./CTAButton";
 
 const posts = galleryItems.slice(0, 6).map((item, i) => ({
@@ -33,9 +34,12 @@ export default function Instagram() {
               data-cursor="hover"
             >
               <img
-                src={post.image}
+                {...localImage(post.slug, {
+                  sizes: "(max-width: 479px) 50vw, (max-width: 767px) 33vw, 17vw",
+                })}
                 alt={`Instagram post: ${post.title}`}
                 loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover transition-transform duration-700 ease-lux group-hover:scale-110"
               />
               <div className="glass-dark absolute inset-0 flex flex-col items-center justify-center gap-2 text-ivory opacity-0 transition-all duration-400 ease-lux group-hover:opacity-100">

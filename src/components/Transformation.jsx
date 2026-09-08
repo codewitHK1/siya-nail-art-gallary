@@ -2,12 +2,10 @@ import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { MoveHorizontal } from "lucide-react";
 import SectionHeading from "./SectionHeading";
-import responsiveImage from "../utils/responsiveImage";
+import localImage from "../utils/localImage";
 
-const BEFORE_IMG =
-  "https://images.unsplash.com/photo-1604654894553-2fe93b0a1e4d?auto=format&fit=crop&w=1800&q=90";
-const AFTER_IMG =
-  "https://images.unsplash.com/photo-1633681926035-ec1ac984418a?auto=format&fit=crop&w=1800&q=90";
+const BEFORE_IMG = "transformation-before";
+const AFTER_IMG = "transformation-after";
 
 export default function Transformation() {
   const [position, setPosition] = useState(50);
@@ -51,8 +49,7 @@ export default function Transformation() {
           onTouchEnd={stopDragging}
         >
           <img
-            {...responsiveImage(AFTER_IMG, {
-              widths: [400, 640, 900, 1280],
+            {...localImage(AFTER_IMG, {
               sizes: "(max-width: 767px) 92vw, 1024px",
             })}
             alt="Nails after Blush treatment"
@@ -66,8 +63,7 @@ export default function Transformation() {
             style={{ width: `${position}%` }}
           >
             <img
-              {...responsiveImage(BEFORE_IMG, {
-                widths: [400, 640, 900, 1280, 1800],
+              {...localImage(BEFORE_IMG, {
                 sizes: "(max-width: 767px) 100vw, 1100px",
               })}
               alt="Nails before Blush treatment"

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import AnimatedText from "./AnimatedText";
 import CTAButton from "./CTAButton";
-import responsiveImage from "../utils/responsiveImage";
+import localImage from "../utils/localImage";
 import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
 
 // Flip this to true once you have actually dropped footage at
@@ -15,8 +15,7 @@ import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
 const HERO_VIDEO_ENABLED = false;
 
 const VIDEO_SRC = "/videos/hero-bg.mp4";
-const BACKDROP_SRC =
-  "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1920&q=90";
+const BACKDROP_SLUG = "hero-backdrop";
 
 const floatingLabels = [
   { label: "Gel Extensions", className: "left-6 top-[38%] md:left-14" },
@@ -53,16 +52,13 @@ export default function Hero() {
             loop
             playsInline
             preload="auto"
-            poster={BACKDROP_SRC}
+            poster={localImage(BACKDROP_SLUG).src}
           >
             <source src={VIDEO_SRC} type="video/mp4" />
           </video>
         ) : (
           <img
-            {...responsiveImage(BACKDROP_SRC, {
-              widths: [480, 768, 1080, 1440, 1920],
-              sizes: "100vw",
-            })}
+            {...localImage(BACKDROP_SLUG, { sizes: "100vw" })}
             alt=""
             aria-hidden
             fetchPriority="high"

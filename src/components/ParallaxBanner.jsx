@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import responsiveImage from "../utils/responsiveImage";
+import localImage from "../utils/localImage";
 
 export default function ParallaxBanner() {
   const ref = useRef(null);
@@ -15,10 +15,7 @@ export default function ParallaxBanner() {
     <section ref={ref} className="relative h-[70vh] overflow-hidden">
       <motion.div style={{ y }} className="absolute inset-0 -top-[8%] -bottom-[8%]">
         <img
-          {...responsiveImage(
-            "https://images.unsplash.com/photo-1607779097040-26e80aa4576b?auto=format&fit=crop&w=2400&q=90",
-            { widths: [640, 1024, 1440, 1920, 2400], sizes: "100vw" }
-          )}
+          {...localImage("banner-nail-art", { sizes: "100vw" })}
           alt="Close-up of hand-painted luxury nail art"
           className="h-full w-full object-cover"
           loading="lazy"

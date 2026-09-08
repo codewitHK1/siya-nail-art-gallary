@@ -1,0 +1,132 @@
+{
+  "banner-nail-art": {
+    "aspect": 0.9996,
+    "widths": [
+      320,
+      480,
+      720,
+      1080,
+      1600,
+      1920
+    ]
+  },
+  "bare-essentials": {
+    "aspect": 1.4981,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "editorial-red": {
+    "aspect": 1.5,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "hand-painted-bloom": {
+    "aspect": 1.4991,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "hero-backdrop": {
+    "aspect": 0.6667,
+    "widths": [
+      320,
+      480,
+      720,
+      1080,
+      1600,
+      1920
+    ]
+  },
+  "liquid-chrome": {
+    "aspect": 1.7778,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "mirror-finish": {
+    "aspect": 0.6667,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "quiet-ivory": {
+    "aspect": 0.6667,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "soft-edge-french": {
+    "aspect": 1.5,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "something-borrowed": {
+    "aspect": 0.6667,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "studio-interior": {
+    "aspect": 1.4981,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "transformation-after": {
+    "aspect": 1.4991,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "transformation-before": {
+    "aspect": 1.5,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  },
+  "wine-and-gold": {
+    "aspect": 0.8,
+    "widths": [
+      320,
+      480,
+      720,
+      1080
+    ]
+  }
+}
