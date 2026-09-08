@@ -20,8 +20,6 @@ export default function App() {
   return (
     <div>
       <AmbientBackground />
-      {/* Film grain sits above the content but below the cursor */}
-      <div aria-hidden className="grain" />
       <ScrollProgress />
       <CustomCursor />
       <Navbar />
