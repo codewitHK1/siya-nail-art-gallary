@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import responsiveImage from "../utils/responsiveImage";
 import { motion, useInView, animate } from "framer-motion";
 import AnimatedText from "./AnimatedText";
 
@@ -55,10 +56,14 @@ export default function About() {
           className="glass overflow-hidden rounded-[32px] aspect-[4/5] p-2 shadow-glass"
         >
           <img
-            src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=1800&q=90"
+            {...responsiveImage(
+              "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=1800&q=90",
+              { widths: [400, 640, 900, 1280], sizes: "(max-width: 767px) 92vw, 45vw" }
+            )}
             alt="Interior of Blush Nail Studio"
             className="h-full w-full rounded-[24px] object-cover"
             loading="lazy"
+            decoding="async"
           />
         </motion.div>
 

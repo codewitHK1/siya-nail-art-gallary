@@ -2,12 +2,20 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import AnimatedText from "./AnimatedText";
 import CTAButton from "./CTAButton";
+import responsiveImage from "../utils/responsiveImage";
 import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
 
-// Drop your own footage in /public/videos/hero-bg.mp4 (see README — "Hero video
-// background"). Until then this poster image is shown as a static fallback.
+// Flip this to true once you have actually dropped footage at
+// /public/videos/hero-bg.mp4 (see public/videos/README.txt).
+//
+// It stays false while the file is missing because netlify.toml / _redirects
+// rewrite every unknown path to /index.html with a 200 — so the <video> would
+// download the HTML document and fail to decode it, costing a request and a
+// decode error on every single visit for no visual benefit.
+const HERO_VIDEO_ENABLED = false;
+
 const VIDEO_SRC = "/videos/hero-bg.mp4";
-const POSTER_SRC =
+const BACKDROP_SRC =
   "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1920&q=90";
 
 const floatingLabels = [
@@ -21,7 +29,7 @@ export default function Hero() {
   const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (!videoRef.current) return;
+    if (!HERO_VIDEO_ENABLED || !videoRef.current) return;
     if (reducedMotion) {
       videoRef.current.pause();
     } else {
@@ -34,20 +42,34 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100vh] items-center overflow-hidden bg-charcoal"
     >
-      {/* Video background */}
+      {/* Video background, or a responsive still while no footage exists */}
       <div className="absolute inset-0">
-        <video
-          ref={videoRef}
-          className="h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster={POSTER_SRC}
-        >
-          <source src={VIDEO_SRC} type="video/mp4" />
-        </video>
+        {HERO_VIDEO_ENABLED ? (
+          <video
+            ref={videoRef}
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={BACKDROP_SRC}
+          >
+            <source src={VIDEO_SRC} type="video/mp4" />
+          </video>
+        ) : (
+          <img
+            {...responsiveImage(BACKDROP_SRC, {
+              widths: [480, 768, 1080, 1440, 1920],
+              sizes: "100vw",
+            })}
+            alt=""
+            aria-hidden
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        )}
 
         {/* Overlay: wine/charcoal gradient wash so text stays legible over any footage */}
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/45 to-wine/40" />

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { MoveHorizontal } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import responsiveImage from "../utils/responsiveImage";
 
 const BEFORE_IMG =
   "https://images.unsplash.com/photo-1604654894553-2fe93b0a1e4d?auto=format&fit=crop&w=1800&q=90";
@@ -50,9 +51,14 @@ export default function Transformation() {
           onTouchEnd={stopDragging}
         >
           <img
-            src={AFTER_IMG}
+            {...responsiveImage(AFTER_IMG, {
+              widths: [400, 640, 900, 1280],
+              sizes: "(max-width: 767px) 92vw, 1024px",
+            })}
             alt="Nails after Blush treatment"
             className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
             draggable={false}
           />
           <div
@@ -60,10 +66,15 @@ export default function Transformation() {
             style={{ width: `${position}%` }}
           >
             <img
-              src={BEFORE_IMG}
+              {...responsiveImage(BEFORE_IMG, {
+                widths: [400, 640, 900, 1280, 1800],
+                sizes: "(max-width: 767px) 100vw, 1100px",
+              })}
               alt="Nails before Blush treatment"
               className="h-full w-full object-cover"
               style={{ width: `${(100 / position) * 100}%`, maxWidth: "none" }}
+              loading="lazy"
+              decoding="async"
               draggable={false}
             />
           </div>

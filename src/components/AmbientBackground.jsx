@@ -1,29 +1,56 @@
 import { motion } from "framer-motion";
+import useIsTouchDevice from "../hooks/useIsTouchDevice";
+import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
 
 /**
  * Sits behind the entire page (fixed, z-index -10) so every glass surface
- * has soft, colourful light to refract. Purely decorative — disabled
- * visually under reduced motion via CSS (see index.css) since the
- * transform-only drift is what gets removed, not the orbs themselves.
+ * has soft, colourful light to refract. Purely decorative.
+ *
+ * The bloom is drawn as a radial gradient rather than a blurred solid — see
+ * `.ambient-orb` in index.css. The slow drift is desktop-only: on phones the
+ * orbs render once and never move, which keeps them off the raster path.
  */
+const orbs = [
+  {
+    color: "rgba(206, 154, 161, 0.5)",
+    className: "h-[32rem] w-[32rem] -top-40 -left-32",
+    drift: { x: [0, 60, 0], y: [0, 40, 0] },
+    duration: 24,
+  },
+  {
+    color: "rgba(198, 163, 116, 0.3)",
+    className: "h-[28rem] w-[28rem] top-1/3 -right-24",
+    drift: { x: [0, -50, 0], y: [0, 60, 0] },
+    duration: 28,
+  },
+  {
+    color: "rgba(234, 211, 203, 0.6)",
+    className: "h-[26rem] w-[26rem] bottom-0 left-1/4",
+    drift: { x: [0, 40, 0], y: [0, -40, 0] },
+    duration: 20,
+  },
+];
+
 export default function AmbientBackground() {
+  const isTouch = useIsTouchDevice();
+  const reducedMotion = usePrefersReducedMotion();
+  const still = isTouch || reducedMotion;
+
   return (
     <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden bg-ivory">
-      <motion.div
-        animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
-        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
-        className="ambient-orb h-[32rem] w-[32rem] -top-40 -left-32 bg-rose-light/50"
-      />
-      <motion.div
-        animate={{ x: [0, -50, 0], y: [0, 60, 0] }}
-        transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
-        className="ambient-orb h-[28rem] w-[28rem] top-1/3 -right-24 bg-gold/30"
-      />
-      <motion.div
-        animate={{ x: [0, 40, 0], y: [0, -40, 0] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-        className="ambient-orb h-[26rem] w-[26rem] bottom-0 left-1/4 bg-blush-deep/60"
-      />
+      {orbs.map((orb) => (
+        <motion.div
+          key={orb.className}
+          animate={still ? undefined : orb.drift}
+          transition={
+            still
+              ? undefined
+              : { duration: orb.duration, repeat: Infinity, ease: "easeInOut" }
+          }
+          style={{ "--orb": orb.color }}
+          className={`ambient-orb ${orb.className}`}
+        />
+      ))}
     </div>
   );
 }

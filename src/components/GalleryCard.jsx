@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import responsiveImage from "../utils/responsiveImage";
 
 export default function GalleryCard({ item, className = "" }) {
   return (
@@ -12,9 +13,13 @@ export default function GalleryCard({ item, className = "" }) {
       data-cursor="view"
     >
       <img
-        src={item.image}
+        {...responsiveImage(item.image, {
+          widths: [300, 400, 600, 800, 1100],
+          sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw",
+        })}
         alt={`${item.title} — ${item.category} nail art`}
         loading="lazy"
+        decoding="async"
         className="h-full w-full object-cover transition-transform duration-[1200ms] ease-lux group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/0 to-charcoal/0 opacity-0 transition-opacity duration-500 ease-lux group-hover:opacity-100" />
