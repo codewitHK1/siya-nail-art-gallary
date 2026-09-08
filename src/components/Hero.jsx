@@ -62,7 +62,12 @@ export default function Hero() {
           animate={{ opacity: 1, y: [0, -6, 0] }}
           transition={{
             opacity: { delay: 1.3 + i * 0.2, duration: 0.6 },
-            y: { delay: 1.6, duration: 5 + i, repeat: reducedMotion ? 0 : Infinity, ease: "easeInOut" },
+            y: {
+              delay: 1.6,
+              duration: 5 + i,
+              repeat: reducedMotion ? 0 : Infinity,
+              ease: "easeInOut",
+            },
           }}
           className={`glass-dark absolute z-20 hidden rounded-full px-4 py-2 text-xs font-semibold tracking-wide text-ivory shadow-glass-dark sm:block ${item.className}`}
         >
@@ -78,7 +83,7 @@ export default function Hero() {
           transition={{ delay: 0.2, duration: 0.7 }}
           className="glass-dark mb-6 inline-block rounded-full px-4 py-1.5 text-sm tracking-[0.05em] text-blush shadow-glass-dark"
         >
-          Bengaluru's studio for considered nail art
+          Kolkata's studio for considered nail art
         </motion.span>
 
         <AnimatedText
@@ -100,7 +105,8 @@ export default function Hero() {
           transition={{ delay: 1.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="mt-8 max-w-md text-lg leading-relaxed text-blush/90"
         >
-          Elevated nail artistry designed to make every detail feel uniquely yours.
+          Elevated nail artistry designed to make every detail feel uniquely
+          yours.
         </motion.p>
 
         <motion.div
